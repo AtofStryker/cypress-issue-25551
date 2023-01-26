@@ -20,6 +20,15 @@ describe("Username/Password login via auth0", () => {
           cy.get("form").first().submit();
         });
         cy.url().should("contain", Cypress.config().baseUrl);
+        // there likely needs to be an assertion here, either verifying localStorage, cookies
+        // or something else to verify the state is set and you are logged in before caching the
+        // session
+        cy.get('[data-cy="user-name"]')
+          .invoke("text")
+          .should("equal", Cypress.env("AUTH0_USERNAME"));
+        cy.get('[data-cy="user-email"]')
+          .invoke("text")
+          .should("equal", Cypress.env("AUTH0_USERNAME"));
       },
       {
         cacheAcrossSpecs: true,
